@@ -7,6 +7,7 @@ datas[4]=10/14/2023; horas[4]=22:19:31
 datas[5]=10/15/2023; horas[5]=21:27:06
 datas[6]=10/16/2023; horas[6]=21:15:05
 
+for ((i=0;i<=6;i++)); do echo -e '\e[32m'$i - ${datas[$i]} ${horas[$i]}'\e[0m'; done; echo;
 
 for ((i=0;i<=6;i++)); do
     data_brasil[$i]=$(date -d "${datas[$i]}" +"%d/%m/%Y")
