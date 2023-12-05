@@ -8,8 +8,9 @@ if [ "$tipopainel" == "1" ]; then
     echo $4 14400 IN PTR $domain. >> /var/named/"$3"."$2"."$1"*
 elif [ "$tipopainel" == "2" ]; then
     echo "$4     14400   IN      PTR     $domain." >> /var/named/"$3"."$2"."$1"*
+    /usr/local/cpanel/scripts/restartsrv_dnsadmin --restart --hard;/usr/local/cpanel/scripts/restartsrv_bind --restart --hard
 else
-    echo opção errada
+    echo Opção errada
     sleep 2
 fi
 echo adicionando o seguinte PTR...
