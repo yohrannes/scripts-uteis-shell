@@ -5,7 +5,9 @@ if [ -d "/usr/local/cwpsrv" ]; then
     echo $4 14400 IN PTR $5. >> /var/named/"$3"."$2"."$1"*
 elif [ -d "/usr/local/cpanel" ]; then
     echo "$4     14400   IN      PTR     $5." >> /var/named/"$3"."$2"."$1"*
-    /usr/local/cpanel/scripts/restartsrv_dnsadmin --restart --hard;/usr/local/cpanel/scripts/restartsrv_bind --restart --hard
+    /usr/local/cpanel/scripts/restartsrv_bind --restart --hard
+    /usr/local/cpanel/scripts/restartsrv_dnsadmin --restart --hard
+    /scripts/restartsrv_named --hard
 else
     echo Opção errada
     sleep 2
