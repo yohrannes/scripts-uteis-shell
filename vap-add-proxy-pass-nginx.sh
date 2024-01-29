@@ -1,10 +1,7 @@
 #!/bin/bash
-read -p "Digite o dominio desejado:" dominio
-echo
-read -p "Digite o host de destino:" hostdesejado
-echo
-read -p "Digite o porta de destino:" port
-echo
+dominio=$1
+hostdesejado=$2
+port=$3
 hostdestino="$hostdesejado:$port"
 
 cat <<EOT > /etc/nginx/conf.d/$dominio.conf
