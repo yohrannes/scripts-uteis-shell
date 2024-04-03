@@ -1,0 +1,10 @@
+####
+
+## Automaticamente fazo push caso esteja autenticado no github.
+## push-main "Testo do commit desejado"
+
+function push-main {
+git add .
+git commit -m "${1}"
+git push origin main
+}
