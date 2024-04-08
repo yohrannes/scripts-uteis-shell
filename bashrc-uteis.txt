@@ -8,3 +8,9 @@ git add .
 git commit -m "${1}"
 git push origin main
 }
+
+function push-develop {
+git add .
+git commit -m "${1}"
+git push origin develop
+}
