@@ -1,7 +1,9 @@
 #!/bin/bash
 
+#
 sudo mkdir -p /home/ubuntu/scripts
 
+read -p "Digite o email para receber notificações de uso acima de 90%: " TO_EMAIL
 cat <<EOF > /home/ubuntu/scripts/monitorador_de_uso_acima_de_90.sh
 #!/bin/bash
 # Script de monitoramento
@@ -9,10 +11,10 @@ LOG_FILE="/var/log/system_monitor.log"
 
 while true; do
     # CPU usage
-    CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')
+    CPU_USAGE=\$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - \$1}')
     
     # Memory usage
-    MEM_USAGE=$(free | grep Mem | awk '{printf("%.0f", $3/$2 * 100.0)}')
+    MEM_USAGE=\$(free | grep Mem | awk '{printf("%.0f", \$3/\$2 * 100.0)}')
     
     # Log se uso alto (>90%)
     if [ \$(echo "\$CPU_USAGE" | cut -d. -f1) -gt 90 ] || [ "\$MEM_USAGE" -gt 90 ]; then
@@ -24,6 +26,23 @@ while true; do
             ps aux --sort=-%mem | head -5
             echo "---"
         } >> "\$LOG_FILE"
+
+        TO_EMAIL="$TO_EMAIL"
+        INSTANCE_NAME=\$(curl -s http://169.254.169.254/latest/meta-data/tags/instance/Name || echo "Unknown Instance")
+        SUBJECT="Alto consumo de CPU identificado - \$INSTANCE_NAME"
+
+        {
+            echo "\$INSTANCE_NAME - CPU > 90% - Verifique a instância imediatamente."
+            echo ""
+            echo "Segue abaixo os top processos/causas de travamento de CPU e MEMÓRIA na máquina, no período de alto consumo!!!."
+            echo ""
+            echo "=== ÚLTIMOS REGISTROS ==="
+            tail -n14 /var/log/system_monitor.log
+            echo ""
+            echo "Data/Hora: \$(date)"
+            echo "Hostname do servidor: \$(hostname)"
+        } | mail -s "\$SUBJECT" "\$TO_EMAIL"
+
     fi
     sleep 60
 done
