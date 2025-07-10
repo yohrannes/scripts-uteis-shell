@@ -11,7 +11,7 @@ LOG_FILE="/var/log/system_monitor.log"
 
 while true; do
     # CPU usage
-    CPU_USAGE=\$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\\([0-9.]*\\)%* id.*/\\1/" | awk '{print 100 - \$1}')
+    CPU_USAGE=\$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\\\\([0-9.]*\\\\)%* id.*/\\\\1/" | awk '{print 100 - \$1}')
     
     # Memory usage
     MEM_USAGE=\$(free | grep Mem | awk '{printf("%.0f", \$3/\$2 * 100.0)}')
