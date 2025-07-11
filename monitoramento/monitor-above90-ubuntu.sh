@@ -1,10 +1,11 @@
 #!/bin/bash
 
 #
-sudo mkdir -p /home/ubuntu/scripts
+sudo mkdir -p ~/scripts
 
 read -p "Digite o email para receber notificações de uso acima de 90%: " TO_EMAIL
-cat <<EOF > /home/ubuntu/scripts/monitorador_de_uso_acima_de_90.sh
+read -p "Digite o nome do usuário atual: " USER
+cat <<EOF > ~/scripts/monitorador_de_uso_acima_de_90.sh
 #!/bin/bash
 # Script de monitoramento
 LOG_FILE="/var/log/system_monitor.log"
@@ -48,7 +49,7 @@ while true; do
 done
 EOF
 
-sudo chmod +x /home/ubuntu/scripts/monitorador_de_uso_acima_de_90.sh
+sudo chmod +x ~/scripts/monitorador_de_uso_acima_de_90.sh
 
 sudo tee /etc/systemd/system/system-monitor.service > /dev/null <<EOF
 [Unit]
@@ -61,7 +62,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=root
-ExecStart=/home/ubuntu/scripts/monitorador_de_uso_acima_de_90.sh
+ExecStart=/home/$USER/scripts/monitorador_de_uso_acima_de_90.sh
 StandardOutput=journal
 StandardError=journal
 
