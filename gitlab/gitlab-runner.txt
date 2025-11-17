@@ -1,0 +1,18 @@
+# Command to register local docker gitlab runner on ubuntu.
+
+#sudo gitlab-runner register \
+#  --non-interactive \
+#  --url "https://gitlab.com/" \
+#  --registration-token "<gl-token>" \
+#  --executor "docker" \
+#  --docker-image "docker:27.3.1" \
+#  --docker-privileged \
+#  --docker-volumes "/certs/client" \
+#  --run-untagged="true" \
+#  --locked="false"
+
+#  image: docker:27.3.1
+#  services:
+#    - name: docker:27.3.1-dind
+#      alias: docker
+#      command: ["--tls=false"]
